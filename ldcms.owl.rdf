@@ -1,0 +1,214 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY xml "http://www.w3.org/XML/1998/namespace" >
+    <!ENTITY cms "http://example.org/staylor/ldcms.owl#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<rdf:RDF xmlns="http://example.org/staylor/ldcms.owl#"
+     xml:base="http://example.org/staylor/ldcms.owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:cms="http://example.org/staylor/ldcms.owl#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace">
+    <owl:Ontology rdf:about="http://example.org/staylor/ldcms.owl"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://example.org/staylor/ldcms.owl#baseClass -->
+
+    <owl:ObjectProperty rdf:about="&cms;baseClass">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdf:type rdf:resource="&owl;InverseFunctionalProperty"/>
+        <rdfs:range rdf:resource="&cms;BaseClass"/>
+        <rdfs:domain rdf:resource="&cms;BrowsingClass"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://example.org/staylor/ldcms.owl#field -->
+
+    <owl:ObjectProperty rdf:about="&cms;field">
+        <rdfs:domain rdf:resource="&cms;BrowsingClass"/>
+        <rdfs:range rdf:resource="&cms;Field"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://example.org/staylor/ldcms.owl#property -->
+
+    <owl:ObjectProperty rdf:about="&cms;property">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://example.org/staylor/ldcms.owl#relationship -->
+
+    <owl:ObjectProperty rdf:about="&cms;relationship">
+        <rdfs:domain rdf:resource="&cms;BrowsingClass"/>
+        <rdfs:range rdf:resource="&cms;Relationship"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://example.org/staylor/ldcms.owl#target -->
+
+    <owl:ObjectProperty rdf:about="&cms;target">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:range rdf:resource="&cms;BrowsingClass"/>
+        <rdfs:domain rdf:resource="&cms;Relationship"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://example.org/staylor/ldcms.owl#BaseClass -->
+
+    <owl:Class rdf:about="&cms;BaseClass">
+        <rdfs:subClassOf rdf:resource="&cms;Class"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty>
+                    <rdf:Description>
+                        <owl:inverseOf rdf:resource="&cms;baseClass"/>
+                    </rdf:Description>
+                </owl:onProperty>
+                <owl:someValuesFrom rdf:resource="&cms;BrowsingClass"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/staylor/ldcms.owl#BrowsingClass -->
+
+    <owl:Class rdf:about="&cms;BrowsingClass">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&cms;baseClass"/>
+                <owl:someValuesFrom rdf:resource="&cms;BaseClass"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&cms;field"/>
+                <owl:onClass rdf:resource="&cms;Title"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&cms;field"/>
+                <owl:onClass rdf:resource="&cms;Description"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/staylor/ldcms.owl#Class -->
+
+    <owl:Class rdf:about="&cms;Class"/>
+    
+
+
+    <!-- http://example.org/staylor/ldcms.owl#DatatypeProperty -->
+
+    <owl:Class rdf:about="&cms;DatatypeProperty"/>
+    
+
+
+    <!-- http://example.org/staylor/ldcms.owl#Description -->
+
+    <owl:Class rdf:about="&cms;Description">
+        <rdfs:subClassOf rdf:resource="&cms;Field"/>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/staylor/ldcms.owl#Field -->
+
+    <owl:Class rdf:about="&cms;Field">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&cms;property"/>
+                <owl:someValuesFrom rdf:resource="&cms;DatatypeProperty"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&cms;property"/>
+                <owl:allValuesFrom rdf:resource="&cms;DatatypeProperty"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/staylor/ldcms.owl#ObjectProperty -->
+
+    <owl:Class rdf:about="&cms;ObjectProperty"/>
+    
+
+
+    <!-- http://example.org/staylor/ldcms.owl#Relationship -->
+
+    <owl:Class rdf:about="&cms;Relationship">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&cms;property"/>
+                <owl:allValuesFrom rdf:resource="&cms;ObjectProperty"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&cms;property"/>
+                <owl:someValuesFrom rdf:resource="&cms;ObjectProperty"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/staylor/ldcms.owl#Title -->
+
+    <owl:Class rdf:about="&cms;Title">
+        <rdfs:subClassOf rdf:resource="&cms;Field"/>
+    </owl:Class>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.3.1957) http://owlapi.sourceforge.net -->
+

@@ -1,0 +1,109 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+@prefix cms: <http://example.org/staylor/ldcms.owl#> .
+@prefix portsoy: <http://example.org/staylor/portsoy.owl#> .
+@prefix : <http://example.org/staylor/portsoy-config.owl#> .
+@base <http://example.org/staylor/portsoy-config.owl> .
+
+<http://example.org/staylor/portsoy-config.owl> rdf:type owl:Ontology ;
+    owl:imports <http://example.org/staylor/ldcms.owl>, <http://example.org/staylor/portsoy.owl> .
+
+#########################################
+# Declare all CMS classes and properties
+#########################################
+portsoy:Location      rdf:type cms:BaseClass .
+portsoy:Person        rdf:type cms:BaseClass .
+portsoy:Residence     rdf:type cms:BaseClass .
+
+portsoy:bornIn        rdf:type cms:ObjectProperty .
+portsoy:childOf       rdf:type cms:ObjectProperty .
+portsoy:hasImage      rdf:type cms:ObjectProperty .
+portsoy:livedIn       rdf:type cms:ObjectProperty .
+portsoy:locatedIn     rdf:type cms:ObjectProperty .
+
+portsoy:dateOfBirth   rdf:type cms:DatatypeProperty .
+portsoy:dateOfDeath   rdf:type cms:DatatypeProperty .
+portsoy:description   rdf:type cms:DatatypeProperty .
+portsoy:easting       rdf:type cms:DatatypeProperty .
+portsoy:name          rdf:type cms:DatatypeProperty .
+portsoy:northing      rdf:type cms:DatatypeProperty .
+portsoy:otherNames    rdf:type cms:DatatypeProperty .
+portsoy:sex           rdf:type cms:DatatypeProperty .
+portsoy:description   rdf:type cms:DatatypeProperty .
+
+###################
+# Browsing classes
+###################
+
+# Location Page
+:LocationPage rdf:type cms:BrowsingClass ;
+  rdfs:label "Location Page" ;
+  cms:baseClass portsoy:Location ;
+  cms:relationship [ 
+    rdf:type cms:Relationship ;
+    rdfs:label "Located In" ;
+    cms:property portsoy:locatedIn ;
+    cms:target portsoy:Location ] ;
+  cms:field [
+    rdf:type cms:Field ;
+    rdf:type cms:Title ;
+    rdfs:label "Name" ;
+    cms:property portsoy:name ] ;
+  cms:field [
+    rdf:type cms:Field ;
+    rdf:type cms:Description ;
+    rdfs:label "Description" ;
+    cms:property portsoy:description ] .
+
+# Person Page
+:PersonPage rdf:type cms:BrowsingClass ;
+  rdfs:label "Person Page" ;
+  cms:baseClass portsoy:Person ;
+  cms:relationship [
+    rdf:type cms:Relationship ;
+    rdfs:label "Child Of" ;
+    cms:target portsoy:Person ;
+    cms:property portsoy:childOf ] ;
+  cms:field [
+    rdf:type cms:Field ;
+    rdf:type cms:Title ;
+    rdfs:label "Full Name" ;
+    cms:property portsoy:name ] ;
+  cms:field [
+    rdf:type cms:Field ;
+    rdf:type cms:Description ;
+    rdfs:label "Description" ;
+    cms:property portsoy:description ] ;
+  cms:field [
+    rdf:type cms:Field ;
+    rdfs:label "Date of birth" ;
+    cms:property portsoy:dateOfBirth ] ;
+  cms:field [
+    rdf:type cms:Field ;
+    rdfs:label "Date of death" ;
+    cms:property portsoy:dateOfDeath ] .
+
+# Residences Page
+:ResidencePage rdf:type cms:BrowsingClass ;
+  rdfs:label "Residence Page" ;
+  cms:baseClass portsoy:Residence ;
+  cms:relationship [
+    rdf:type cms:Relationship ;
+    rdfs:label "Located In" ;
+    cms:target portsoy:Location ;
+    cms:property portsoy:locatedIn ] ;
+  cms:field [ 
+    rdf:type cms:Field ;
+    rdf:type cms:Title ;
+    rdfs:label "Name" ;
+    cms:property portsoy:name ] ;
+  cms:field [
+    rdf:type cms:Field ;
+    rdf:type cms:Description ;
+    rdfs:label "Description" ;
+    cms:property portsoy:description ] .
+

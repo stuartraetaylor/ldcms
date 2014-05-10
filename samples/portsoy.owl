@@ -1,0 +1,89 @@
+Prefix(:=<http://example.org/staylor/portsoy.owl#>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+Prefix(foaf:=<http://xmlns.com/foaf/0.1/>)
+Prefix(gn:=<http://www.geonames.org/ontology#>)
+Prefix(spatialrelations:=<http://data.ordnancesurvey.co.uk/ontology/spatialrelations/>)
+
+Ontology(<http://example.org/staylor/portsoy.owl>
+<http://example.org/staylor/portsoy.owl/0.0.1>
+
+
+// Classes
+
+Declaration(Class(:Person))
+SubClassOf(:Person foaf:Person)
+
+Declaration(Class(:Location))
+SubClassOf(:Location gn:Feature)
+
+Declaration(Class(:Picture))
+
+Declaration(Class(:Residence))
+SubClassOf(:Residence :Location)
+
+DisjointClasses(:Location :Person)
+DisjointClasses(:Location :Picture)
+DisjointClasses(:Person :Location)
+DisjointClasses(:Person :Picture)
+DisjointClasses(:Picture :Location)
+DisjointClasses(:Picture :Person)
+
+
+// Object properties
+
+Declaration(ObjectProperty(:bornIn))
+ObjectPropertyDomain(:bornIn :Person)
+ObjectPropertyRange(:bornIn :Location)
+
+Declaration(ObjectProperty(:childOf))
+ObjectPropertyDomain(:childOf :Person)
+ObjectPropertyRange(:childOf :Person)
+
+Declaration(ObjectProperty(:hasImage))
+ObjectPropertyRange(:hasImage :Picture)
+
+Declaration(ObjectProperty(:livedIn))
+ObjectPropertyDomain(:livedIn :Person)
+ObjectPropertyRange(:livedIn :Location)
+
+Declaration(ObjectProperty(:locatedIn))
+TransitiveObjectProperty(:locatedIn)
+ObjectPropertyDomain(:locatedIn :Location)
+ObjectPropertyRange(:locatedIn :Location)
+
+Declaration(DataProperty(:dateOfBirth))
+DataPropertyDomain(:dateOfBirth :Person)
+
+Declaration(DataProperty(:dateOfDeath))
+DataPropertyDomain(:dateOfDeath :Person)
+
+
+// Datatype properties
+
+Declaration(DataProperty(:name))
+Declaration(DataProperty(:description))
+
+Declaration(DataProperty(:easting))
+SubDataPropertyOf(:easting spatialrelations:easting)
+DataPropertyDomain(:easting :Location)
+
+Declaration(DataProperty(:northing))
+SubDataPropertyOf(:northing spatialrelations:northing)
+DataPropertyDomain(:northing :Location)
+
+Declaration(DataProperty(:otherNames))
+SubDataPropertyOf(:otherNames :name)
+DataPropertyDomain(:otherNames :Person)
+
+Declaration(DataProperty(:surname))
+SubDataPropertyOf(:surname :name)
+DataPropertyDomain(:surname :Person)
+
+Declaration(DataProperty(:sex))
+DataPropertyDomain(:sex :Person)
+
+)

@@ -1,0 +1,24 @@
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+# LDCMS meta-ontology schema 
+prefix cms: <http://example.org/staylor/ldcms.owl#>
+# domain ontology schema 
+prefix portsoy: <http://example.org/staylor/portsoy.owl#>
+# meta-ontology instantiation 
+prefix : <http://example.org/staylor/portsoy-config.owl#>
+
+# Validate relationship against domain ontology. 
+ASK { 
+  # Query configuration meta-ontology. 
+  SERVICE <http://localhost:3030/ldcms-config/query> { 
+   <BC> a :BrowsingClass ; 
+     cms:relationship [ 
+       cms:property ?P ; 
+       cms:target ?C ]. 
+   [] a :BrowsingClass ; 
+     cms:baseClass ?C . 
+  } 
+  # Query domain ontology. 
+  SERVICE <http://localhost:3030/dataset/query> { 
+   ?P rdfs:range [ rdfs:subClassOf ?C ]. 
+  } 
+}

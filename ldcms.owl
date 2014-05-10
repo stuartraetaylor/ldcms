@@ -1,0 +1,69 @@
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+
+Prefix(cms:=<http://example.org/staylor/ldcms.owl#>)
+
+// ****************************************
+// This is the browsing class definition for the Linked Data CMS.
+//
+// @author Stuart Taylor
+// @version 2013-06-19
+// ****************************************
+Ontology(<http://example.org/staylor/ldcms.owl>
+
+  Declaration(Class(cms:Class))
+  Declaration(Class(cms:ObjectProperty))
+  Declaration(Class(cms:DatatypeProperty))
+
+  // Base class.
+  Declaration(Class(cms:BaseClass))
+  SubClassOf(cms:BaseClass cms:Class)
+  SubClassOf(cms:BaseClass ObjectSomeValuesFrom(ObjectInverseOf(cms:baseClass) cms:BrowsingClass))
+
+  // Browsing Class.
+  Declaration(Class(cms:BrowsingClass))
+  SubClassOf(cms:BrowsingClass ObjectSomeValuesFrom(cms:baseClass cms:BaseClass))
+
+  Declaration(ObjectProperty(cms:baseClass))
+  FunctionalObjectProperty(cms:baseClass)
+  InverseFunctionalObjectProperty(cms:baseClass)
+  ObjectPropertyDomain(cms:baseClass cms:BrowsingClass)
+  ObjectPropertyRange(cms:baseClass cms:BaseClass)
+
+  Declaration(ObjectProperty(cms:property))
+  FunctionalObjectProperty(cms:property)
+
+  // Fields.
+  Declaration(ObjectProperty(cms:field))
+  ObjectPropertyDomain(cms:field cms:BrowsingClass)
+  ObjectPropertyRange(cms:field cms:Field)
+
+  Declaration(Class(cms:Field))
+  SubClassOf(cms:Field ObjectSomeValuesFrom(cms:property cms:DatatypeProperty))
+  SubClassOf(cms:Field ObjectAllValuesFrom(cms:property cms:DatatypeProperty))
+
+  Declaration(Class(cms:Title))
+  SubClassOf(cms:Title cms:Field)
+  SubClassOf(cms:BrowsingClass ObjectExactCardinality(1 cms:field cms:Title))
+
+  Declaration(Class(cms:Description))
+  SubClassOf(cms:Description cms:Field)
+  SubClassOf(cms:BrowsingClass ObjectExactCardinality(1 cms:field cms:Description))
+
+  // Relationships.
+  Declaration(ObjectProperty(cms:relationship))
+  ObjectPropertyDomain(cms:relationship cms:BrowsingClass)
+  ObjectPropertyRange(cms:relationship cms:Relationship)
+
+  Declaration(Class(cms:Relationship))
+  SubClassOf(cms:Relationship ObjectSomeValuesFrom(cms:property cms:ObjectProperty))
+  SubClassOf(cms:Relationship ObjectAllValuesFrom(cms:property cms:ObjectProperty))
+
+  Declaration(ObjectProperty(cms:target))
+  FunctionalObjectProperty(cms:target)
+  ObjectPropertyDomain(cms:target cms:Relationship)
+  ObjectPropertyRange(cms:target cms:BrowsingClass)
+)
